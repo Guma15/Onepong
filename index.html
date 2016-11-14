@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang=en>
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+        <link rel="stylesheet" href="css/style.css">
+    </head>
+    <body>
+        <section>
+            <div id="canvasDiv">
+                <div id="formDiv">
+                    <form>
+                        <label for="participant">Participant number</label>
+                        <input type="text" id="participant" name="participant" maxlength="8">
+                        <label for="sex">Sex</label>
+                        <select id="sex" name="sex">
+                          <option value="male">Male</option>
+                          <option value="female">Female</option>
+                        </select>
+                        <label for="age">Age</label>
+                        <input type="text" id="age" name="age" maxlength="2">
+                        <input type="button" id="startBtn" value="Start">
+                    </form>
+                </div>
+                <div id="guessDiv">
+                    <form>
+                        <p>What speed did the ball have? Press a number between 1-6.</p>
+                        <ol>
+                            <li>1.05 m/s</li>
+                            <li>1.32 m/s</li>
+                            <li>1.58 m/s</li>
+                            <li>2.38 m/s</li>
+                            <li>2.65 m/s</li>
+                            <li>2.91 m/s</li>
+                        </ol>
+                    </form>
+                </div>
+                <canvas id="pause" height="800" width="1200"></canvas>
+                <canvas id="layer1" height="800" width="1200"></canvas>
+                <canvas id="layer2" height="800" width="1200"></canvas>
+            </div>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+            <script src="js/google_sheets.js"></script>
+            <script src="js/onepong_form.js"></script>
+            <!--- uncomment this for json version and remove above scripts.
+            <script src="js/onepong.js"></script>
+            <script src="js/dataform.js"></script> --->
+        </section>
+    </body>
+</html>
