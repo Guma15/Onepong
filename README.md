@@ -10,7 +10,7 @@ Each guess by the player, the actual ball speed, paddle size and trial number is
 
 The scripts used to post the data and later handle it within the google spreadsheet was based on Martin Hawksey's solution: https://mashe.hawksey.info/2014/07/google-sheets-as-a-database-insert-with-apps-script-using-postget-methods-with-ajax-example/
 
-A more user friendly version of Martin's code was also created by github user, dwyl:
+A more user friendly version of Martin's code was also created by the github group, dwyl:
 https://github.com/dwyl/html-form-send-email-via-google-script-without-server
 
 Credit should therefore go to both Martin and dwyl for their code used in this program. Minor changes were made in the script to post the data, the main difference is that it handles a dataform object in javascript, rather than a html created form, see google_sheets.js for more information.
