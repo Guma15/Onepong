@@ -278,14 +278,8 @@ function endTrial() {
         console.log("The block is: " + blockNum);
         //4 blocks, starts from 0.
         if (blockNum > 3) {
-            stopTrial = false;
-            pauseDiv.style.visibility = "visible";
-            guessDiv.style.visibility = "visible";
-            guessDiv.innerHTML = "";
-            var para = document.createElement("p");
-            var textP = document.createTextNode("The test is over. Please wait 10 seconds before you refresh or close the site.");
-            para.appendChild(textP);
-            guessDiv.appendChild(para);
+            //function to finish the test
+            completeTest();
             //Submit function from google_sheets.js
             submit();
         }
@@ -317,6 +311,23 @@ function setTrialValue (myGuess) {
         dataFormer("BallSpeed" + trialNum + "D", ball.speedX);
         dataFormer("PaddleSize" + trialNum + "D", player.height);
     }
+}
+
+function completeTest() {
+    stopTrial = false;
+    pauseDiv.style.visibility = "visible";
+    guessDiv.style.visibility = "visible";
+    guessDiv.innerHTML = "";
+    var para = document.createElement("p");
+    var textP = document.createTextNode("The test is over. Please wait 10 seconds"+
+    " before you refresh or close the site."+
+    " Meanwhile you can read the below debrief about the test.");
+    var img = document.createElement("img");
+    img.src = "img/debrief.jpg";
+    para.appendChild(textP);
+    para.appendChild(img);
+    guessDiv.style.height = "700px";
+    guessDiv.appendChild(para);
 }
 
 //Appends values to dataform object
