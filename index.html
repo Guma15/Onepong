@@ -23,8 +23,8 @@
                     </form>
                 </div>
                 <div id="guessDiv">
-                    <form>
-                        <p>What speed did the ball have? Press a number between 1-6.</p>
+                    <form id="guessForm">
+                        <p id="questionForm">What speed did the ball have? Press a number between 1-6.</p>
                         <ol>
                             <li>1.05 m/s</li>
                             <li>1.32 m/s</li>
@@ -34,6 +34,28 @@
                             <li>2.91 m/s</li>
                         </ol>
                     </form>
+                    <article id="debrief"><b>The test is over. Please wait 10 seconds before you refresh or close the site. Meanwhile you can read the below debrief about the test.</b>
+                        <h2>University of Liverpool</h2>
+                        <h3>Committee on Research Ethics<br>PARTICIPANT DEBRIEF SHEET</h3>
+                        <p>Title of research project: Narcissism, action-specific scaling effects and gameplay<br>
+                        Researcher(s): Elizabeth Collier, Victoria Blinkhorn and Minna Lyons<br></p>
+                        <p>In this study, we were interested in personality and speed perception in the context of gameplay. Specifically, we were interested in whether narcissism would be associated with differences in estimated speed.</p>
+                        <p>The action-specific account of perception claims that what we perceive is directly affected by our action capacity.<br>
+                         For example, it has been reported that balls appear to move faster when participants try to block them with a smaller paddle (Witt & Sugovic, 2010).
+                         However, other evidence suggests that such effects may be the result of cognitive dissonance. Cognitive dissonance arises when participants’ actual performance differs from their expectations of their performance.
+                         For example, Wesp et al. (2004) found that participants who were poorer at throwing darts estimated the targets as smaller. This appears consistent with the action-specific account.
+                         However, in a later study, Wesp and Gasper (2012) found no difference in target size estimates between better and poorer dart throwers when participants were told that the darts were of poor quality.
+                         This suggests that participants in the original study estimated targets as smaller to offset the cognitive dissonance that arose between their actual and expected performance.</p>
+                        <p>Narcissism is associated with an inflated sense of ability, so it might be expected that individuals scoring high on narcissism would experience greater cognitive dissonance.
+                         If this is the case, then narcissism may be associated with a stronger action-specific scaling effect in the ball speed estimation task used by Witt and Sugovic (2010).
+                         This is what we were testing in the present study.</p>
+                        <p>If you have any questions you would like answered, please contact any of the researchers named below and we will try to help.<br><br>
+                        Principal Investigator:<br>
+                        Minna Lyons, mlyons@liv.ac.uk<br><br>
+                        Student Researchers:<br>
+                        Elizabeth Collier, e.s.collier@liverpool.ac.uk<br>
+                        Victoria Blinkhorn, toria@liverpool.ac.uk<br><br><br><br>
+                        September 2016</p></article>
                 </div>
                 <canvas id="pause" height="800" width="1200"></canvas>
                 <canvas id="layer1" height="800" width="1200"></canvas>
@@ -41,10 +63,7 @@
             </div>
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
             <script src="js/google_sheets.js"></script>
-            <script src="js/onepong_form.js"></script>
-            <!--- uncomment this for json version and remove above scripts.
             <script src="js/onepong.js"></script>
-            <script src="js/dataform.js"></script> -->
         </section>
     </body>
 </html>

@@ -20,6 +20,7 @@ function submit(){
     // Serialize the data in the form
     // Fire off the request to /form.php
     request = $.ajax({
+        //Change this url for your own google spreadsheet document
         url: "https://script.google.com/macros/s/AKfycbwsK5WCSw_oC-dToFBhiWbJTXkr05zKOPimwr-aC4QFtlDFrCA/exec",
         type: "post",
         //Neccesary values to be able to send the dataform object to google correctly
