@@ -3,20 +3,24 @@ This is a Pong-like game created to track userdata when being played.
 The program prompts the users everytime they finish a trial/round and asks them to guess the
 speed that the ball was moving. The collected data consists of the guessed speed,the
 actual speed, paddle size, trial number and a participant number.
-This version of Onepong saves all the data in a json object that can be downloaded in a
-json file.
+This version of Onepong sends the data in a dataform object that is then posted to
+a google spreedsheet with the use of AJAX.
 
 This program was created on a request by a client at Liverpool University
 */
+
+//Dont be like me and use these many global variables
 var WIDTH = 1200, HEIGHT = 800;
 var layer1, layer2, ctx, ctx2, player, ball;
 var UpArrow = 38, DownArrow = 40;
 var trialNum = 0, blockNum = 0, counter = 0, guess = 0, newTrialState = false, stopTrial = true;
 var ballSpeeds = [4, 5, 6, 9, 10, 11], bSpeedCount = [0,0,0,0,0,0];
 var playerHeights = [100, 200, 300, 100, 200, 300];
-var participant, sex, age, pause, key;
+var pause, key;
 var pauseDiv = document.getElementById("pause");
 var guessDiv = document.getElementById("guessDiv");
+var formResults = new FormData();
+
 
 //Player paddle, renders the paddle and moves it on input from UP and DOWN arrow keys
 player = {
@@ -44,6 +48,7 @@ player = {
         ctx2.strokeRect(this.x, this.y, this.width + 2, this.height);
     }
 };
+
 
 //Ball object, renders the ball on the ctx2 canvas and moves it according to a set speed in pixels
 ball = {
@@ -101,6 +106,7 @@ ball = {
 
     },
 
+    //Draws the object on the ctx2 canvas
     draw: function() {
         ctx2.beginPath();
         ctx2.arc(this.x, this.y, this.radius, 2* Math.PI, false);
@@ -259,77 +265,78 @@ function activeButtons() {
 
 //Function for when a trial ends as well as when a block of trials ends.
 function endTrial() {
-
-    console.log("The trial is on" + trialNum);
+    console.log("The trial is on " + trialNum);
     pauseDiv.style.visibility = "hidden";
     guessDiv.style.visibility = "hidden";
     setTrialValue(guess);
     ++trialNum;
     //36 trials per block
-    if (trialNum >= 3) {
+    if (trialNum >= 36) {
         trialNum = 0;
         ++blockNum;
         bSpeedCount = [0,0,0,0,0,0];
         console.log("The block is: " + blockNum);
         //4 blocks, starts from 0.
         if (blockNum > 3) {
-            stopTrial = false;
-            pauseDiv.style.visibility = "visible";
-            guessDiv.style.visibility = "visible";
-            guessDiv.innerHTML = "";
-            var para = document.createElement("p");
-            var textP = document.createTextNode("The test is over. Please press the link below to download the data.");
-            para.appendChild(textP);
-            guessDiv.appendChild(para);
-            downloader(finalResults);
+            //function to finish the test
+            completeTest();
+            //Submit function from google_sheets.js
+            submit();
         }
     }
     newTrial();
     newTrialState = false;
 }
 
-//Puts all values from dataform.js json object to json file
-function downloader(finalData) {
-    var json = JSON.stringify(finalData);
-    var blob = new Blob([json], {type: "application/json"});
-    var url  = URL.createObjectURL(blob);
-
-    JSON.stringify(finalData);
-    var dl = document.createElement("a");
-    var textDL = document.createTextNode("Download");
-    dl.appendChild(textDL);
-    dl.download =  finalResults.Results[0].ParticipantNumber + ".json";
-    dl.href =  url;
-    guessDiv.appendChild(dl);
-}
-
-//Sets values to json object in dataform.js
+//Sets values to dataform object, formResults with unique values for each trialnumber.
 function setTrialValue (myGuess) {
     if (blockNum === 0) {
-        finalResults.Block1[trialNum].GuessedSpeed = myGuess;
-        finalResults.Block1[trialNum].BallSpeed = ball.speedX;
-        finalResults.Block1[trialNum].PaddleSize = player.height;
+        dataFormer("TrialNumber" + trialNum + "A", trialNum);
+        dataFormer("GuessedSpeed" + trialNum + "A", myGuess);
+        dataFormer("BallSpeed" + trialNum + "A", ball.speedX);
+        dataFormer("PaddleSize" + trialNum + "A", player.height);
     } else if (blockNum === 1) {
-        finalResults.Block2[trialNum].GuessedSpeed = myGuess;
-        finalResults.Block2[trialNum].BallSpeed = ball.speedX;
-        finalResults.Block2[trialNum].PaddleSize = player.height;
+        dataFormer("TrialNumber" + trialNum + "B", trialNum);
+        dataFormer("GuessedSpeed" + trialNum + "B", myGuess);
+        dataFormer("BallSpeed" + trialNum + "B", ball.speedX);
+        dataFormer("PaddleSize" + trialNum + "B", player.height);
     } else if (blockNum === 2) {
-        finalResults.Block3[trialNum].GuessedSpeed = myGuess;
-        finalResults.Block3[trialNum].BallSpeed = ball.speedX;
-        finalResults.Block3[trialNum].PaddleSize = player.height;
+        dataFormer("TrialNumber" + trialNum + "C", trialNum);
+        dataFormer("GuessedSpeed" + trialNum + "C", myGuess);
+        dataFormer("BallSpeed" + trialNum + "C", ball.speedX);
+        dataFormer("PaddleSize" + trialNum + "C", player.height);
     } else if (blockNum === 3) {
-        finalResults.Block4[trialNum].GuessedSpeed = myGuess;
-        finalResults.Block4[trialNum].BallSpeed = ball.speedX;
-        finalResults.Block4[trialNum].PaddleSize = player.height;
+        dataFormer("TrialNumber" + trialNum + "D", trialNum);
+        dataFormer("GuessedSpeed" + trialNum + "D", myGuess);
+        dataFormer("BallSpeed" + trialNum + "D", ball.speedX);
+        dataFormer("PaddleSize" + trialNum + "D", player.height);
     }
 }
 
+function completeTest() {
+    var debrief = document.getElementById("debrief");
+    var guessForm = document.getElementById("guessForm");
+    stopTrial = false;
+    pauseDiv.style.visibility = "visible";
+    guessDiv.style.visibility = "visible";
+    guessForm.innerHTML = "";
+    debrief.style.visibility = "visible";
+    guessDiv.style.height = "700px";
+}
+
+//Appends values to dataform object
+function dataFormer(index, value) {
+    formResults.append(index, value);
+}
 
 //Event listener for start button
 document.getElementById("startBtn").addEventListener("click", function(){
-    finalResults.Results.ParticipantNumber = document.getElementById("participant").value;
-    finalResults.Results.Sex = document.getElementById("sex").value;
-    finalResults.Results.Age = document.getElementById("age").value;
+    var parti = document.getElementById("participant").value;
+    var sex = document.getElementById("sex").value;
+    var age = document.getElementById("age").value;
+    dataFormer("Participant", parti);
+    dataFormer("Sex", sex);
+    dataFormer("Age", age);
     activeButtons();
     document.getElementById("formDiv").style.display = "none";
     pauseDiv.style.visibility = "hidden";
